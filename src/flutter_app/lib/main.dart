@@ -52,8 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
   Future<void> _incrementCounter() async {
-    // TODO: sale error de SocketException
-    var url = Uri.parse('http://localhost:2022/Users/list-all');
+    var url = Uri.parse('http://10.0.2.2:5009/Users/list-all');
     var response = await http.get(url);
 
     print('Response status: ${response.statusCode}');

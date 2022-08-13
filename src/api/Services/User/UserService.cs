@@ -5,18 +5,18 @@ using api.Data;
 using api.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace api.Services.Users
+namespace api.Services
 {
-    public interface IGetAllUsersService
+    public interface IUserService
     {
         Task<List<User>> GetAllAsync();
     }
 
-    public class GetAllUsersService : IGetAllUsersService
+    public class UserService : IUserService
     {
         private readonly ApplicationDbContext context;
 
-        public GetAllUsersService(ApplicationDbContext context)
+        public UserService(ApplicationDbContext context)
         {
             this.context = context;
         }

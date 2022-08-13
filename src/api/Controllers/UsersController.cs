@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using api.Models;
-using api.Services.Users;
+using api.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
@@ -10,9 +10,9 @@ namespace api.Controllers
     [Route("[controller]")]
     public class UsersController : ControllerBase
     {
-        private readonly IGetAllUsersService getAllUsersService;
+        private readonly IUserService getAllUsersService;
 
-        public UsersController(IGetAllUsersService getAllUsersService)
+        public UsersController(IUserService getAllUsersService)
         {
             this.getAllUsersService = getAllUsersService;
         }

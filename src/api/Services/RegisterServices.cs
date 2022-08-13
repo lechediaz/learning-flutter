@@ -1,4 +1,4 @@
-using api.Services.Users;
+using api.Services;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -15,7 +15,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
             #region Raw Materials
-            services.AddScoped<IGetAllUsersService, GetAllUsersService>();
+            services.AddScoped<IUserService, UserService>();
             #endregion
 
             return services;
