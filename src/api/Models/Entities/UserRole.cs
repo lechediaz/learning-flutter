@@ -1,6 +1,8 @@
-namespace api.Models
+using api.Models.Base;
+
+namespace api.Models.Entities
 {
-    public class UserRole
+    public class UserRole : IHasId
     {
         public int Id { get; set; }
         public int UserId { get; set; }

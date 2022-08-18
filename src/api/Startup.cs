@@ -35,6 +35,13 @@ namespace api
             services.AddServices();
 
             services.AddControllers();
+
+            // Registers all AutoMapper profiles from Assembly
+            services.AddAutoMapper(typeof(Startup));
+
+            // Registers the repositories
+            services.AddRepositories();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "api", Version = "v1" });
@@ -47,11 +54,11 @@ namespace api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "api v1"));
             }
 
-            app.UseHttpsRedirection();
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "api v1"));
 
             app.UseRouting();
 

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using api.Models;
+using api.Models.Entities;
 using api.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,17 +10,17 @@ namespace api.Controllers
     [Route("[controller]")]
     public class UsersController : ControllerBase
     {
-        private readonly IUserService getAllUsersService;
+        private readonly IUserService userService;
 
-        public UsersController(IUserService getAllUsersService)
+        public UsersController(IUserService userService)
         {
-            this.getAllUsersService = getAllUsersService;
+            this.userService = userService;
         }
 
-        [HttpGet("list-all")]
+        [HttpGet]
         public async Task<ActionResult<List<User>>> GetAll()
         {
-            List<User> users = await getAllUsersService.GetAllAsync();
+            List<User> users = await userService.GetAllAsync();
 
             return users;
         }

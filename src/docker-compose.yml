@@ -1,0 +1,35 @@
+version: '3.7'
+
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: PermisosDb
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "Cal1forn!cat_on"
+    ports:
+      - "1415:1433"
+
+  api:
+    build:
+      context: api
+      dockerfile: Dockerfile
+    container_name: PermisosAPI
+    command:
+      [
+        "./wait-for-it.sh",
+        "PermisosDb:1433",
+        "-t",
+        "120",
+        "--",
+        "dotnet",
+        "api.dll"
+      ]
+    depends_on:
+      - db
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ASPNETCORE_URLS: "http://+:80"
+      ConnectionStrings__ApplicationDbContext: "Server=PermisosDb;database=PermisosDb;User Id=SA;Password=Cal1forn!cat_on"
+    ports:
+      - "8011:80"
