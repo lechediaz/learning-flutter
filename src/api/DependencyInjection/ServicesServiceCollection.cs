@@ -13,6 +13,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="services">The services.</param>
         /// <returns>The services.</returns>
         public static IServiceCollection AddServices(this IServiceCollection services) =>
-            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUserService, UserService>()
+                .AddScoped<IRoleService, RoleService>();
     }
 }
