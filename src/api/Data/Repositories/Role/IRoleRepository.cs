@@ -1,4 +1,4 @@
-using api.Data.Base;
+using api.Data.Repositories.Base;
 using api.Models.Entities;
 
 namespace api.Data.Repositories

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace api.Data.Base
+namespace api.Data.Repositories.Base
 {
     /// <summary>
     /// Implements all the generic methods to use for manage entities
@@ -25,27 +25,34 @@ namespace api.Data.Base
             this.dbSet = dbContext.Set<TEntity>();
         }
 
-        public async Task AddAsync(TEntity entity)
+        public virtual async Task AddAsync(TEntity entity)
         {
             dbSet.Add(entity);
 
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(TEntity entity)
+        public virtual async Task DeleteAsync(TEntity entity)
         {
             dbSet.Remove(entity);
 
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> conditions) =>
+        public async Task DeleteAsync(int id)
+        {
+            var entity = await GetAsync(id);
+
+            await DeleteAsync(entity);
+        }
+
+        public virtual async Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> conditions) =>
             await dbSet.AnyAsync(conditions);
 
-        public async Task<List<TEntity>> GetAllAsync() =>
+        public virtual async Task<List<TEntity>> GetAsync() =>
             await dbSet.ToListAsync();
 
-        public async Task<List<TEntity>> GetAsync(
+        public virtual async Task<List<TEntity>> GetAsync(
             Expression<Func<TEntity, bool>> whereCondition = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
             string includeProperties = "")
@@ -73,13 +80,13 @@ namespace api.Data.Base
             }
         }
 
-        public async Task<TEntity> GetByIdAsync(int id) =>
+        public virtual async Task<TEntity> GetAsync(int id) =>
             await dbSet.FindAsync(id);
 
-        public async Task<TEntity> GetFirstAsync(Expression<Func<TEntity, bool>> whereCondition)
+        public virtual async Task<TEntity> GetFirstAsync(Expression<Func<TEntity, bool>> whereCondition)
             => await dbSet.FirstOrDefaultAsync(whereCondition);
 
-        public async Task UpdateAsync(TEntity entity)
+        public virtual async Task UpdateAsync(TEntity entity)
         {
             dbContext.Entry(entity).State = EntityState.Modified;
 
