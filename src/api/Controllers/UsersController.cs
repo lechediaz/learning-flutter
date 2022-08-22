@@ -71,7 +71,7 @@ namespace api.Controllers
         }
 
         [HttpDelete("{id:int}")]
-        public async Task<ActionResult> Put(int id)
+        public async Task<ActionResult> Delete(int id)
         {
             ServiceResult deleteResult = await userService.DeleteAsync(id);
 
