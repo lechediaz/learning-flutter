@@ -11,6 +11,10 @@ Este repositorio contiene un prototipo para una aplicación móvil que permite s
 
 Para poder ejecutar la aplicación por completo se debe realizar los siguientes pasos:
 
+```
+docker-compose -f ./src/docker-compose.yml -p permisos-flutter up -d --build
+```
+
 ## Preparar la Base de Datos
 
 Para poder trabajar con la aplicación, primero debemos crear nuestra base de datos, para ellos nos dirigimos a `src\api` y ejecutamos:
