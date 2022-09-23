@@ -1,9 +1,11 @@
-import 'dart:convert';
-import 'dart:io';
+import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_app/models/user.dart';
 import 'package:http/http.dart' as http;
+
+import '../utils/user_parsers.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
@@ -105,10 +107,16 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               padding: const EdgeInsets.all(8),
               itemCount: _users?.length ?? 0,
               itemBuilder: (BuildContext context, int index) {
-                return Container(
-                  height: 50,
-                  color: Colors.amber,
-                  child: const Center(child: Text('Ejemplo')),
+                return Row(
+                  children: [
+                    Text(_users![index].name),
+                    Container(
+                      margin: const EdgeInsets.only(left: 10.0),
+                      child: Text(
+                        '(${_users![index].roleName})',
+                      ),
+                    )
+                  ],
                 );
               },
               separatorBuilder: (BuildContext context, int index) =>
@@ -133,20 +141,20 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     });
 
     try {
-      String urlString = 'http://10.0.2.2:8011/Users';
+      String urlString = 'http://localhost:8011/Users';
 
-      if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
-        urlString = 'http://localhost:8011/Users';
+      // TODO: Buscar o crear una librería que simplifique esto
+      if (!kIsWeb && (Platform.isAndroid || Platform.isMacOS)) {
+        urlString = 'http://10.0.2.2:8011/Users';
       }
 
       var url = Uri.parse(urlString);
       var response = await http.get(url);
 
       setState(() {
-        // TODO: Map JSON Object to List of User.
-        // if (response.statusCode == 200) {
-        //   var jsonObject = jsonDecode(response.body);
-        // }
+        if (response.statusCode == 200) {
+          _users = parseJsonToUserList(response.body);
+        }
 
         _getUsersStatus = response.statusCode == 200 ? "OK" : "FAIL";
         _loadingUser = false;
